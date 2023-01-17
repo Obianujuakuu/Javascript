@@ -1,20 +1,30 @@
 const rock = document.querySelector('#rock')
 const paper = document.querySelector('#paper')
 const scissors = document.querySelector('#scissors')
+const winner = document.querySelector('#winner')
+const compScore = document.querySelector('#comscore')
+const plyScore = document.querySelector('#plyscore')
+const resultDiv = document.getElementById('result')
+const roundWinner = document.getElementById('round-display')
+
+ 
 
 
 let choices = ['rock', 'paper', 'scissors']
 
 //function to get random num for computer
-function getComputerChoice(){
+const getComputerChoice = () => {
     let randomNum = choices[Math.floor(Math.random() * choices.length)];
-  console.log(randomNum)
+  return randomNum;
 };
 
 // Function to play a round of game
-function playRound(playerSelection, computerSelection){
+let playerScore = 0;
+let computerScore = 0;
+
+const playRound = (playerSelection, computerSelection) => {
     if (playerSelection === computerSelection){
-        result = "It's A Tie";
+        result = `It's A Tie <br> ${playerSelection} against ${computerSelection}`;
     
     }
     if (
@@ -24,7 +34,7 @@ function playRound(playerSelection, computerSelection){
         )
         {
             computerScore++;
-            result = "You Lost!";
+            result = `You Lost!<br> ${computerSelection} beats ${playerSelection}`;
             
         }
         if(
@@ -33,11 +43,64 @@ function playRound(playerSelection, computerSelection){
             ||(playerSelection === "scissors" && computerSelection === "paper")
             ){
                 playerScore++;
-                result = "You Win!";
+                result = `You Win!<br> ${playerSelection} beats ${computerSelection}`;
                 
             }
-        
+     return result;
+    
+    
 }
+// Event listeners
 
+rock.addEventListener('click', () => {
+    const ComputerChoice = getComputerChoice();
+    const result = playRound(choices[0], ComputerChoice);
+    console.log(result);
+    winner.innerHTML = result;
+    compScore.innerHTML = computerScore;
+    plyScore.innerHTML = playerScore;
+    const round = gameOver(playerScore, computerScore)
+    resultDiv.innerHTML = round;
+})
 
+paper.addEventListener('click', () => {
+    const ComputerChoice = getComputerChoice();
+    const result = playRound(choices[1], ComputerChoice);
+    console.log(result);
+    winner.innerHTML = result;
+    compScore.innerHTML = computerScore;
+    plyScore.innerHTML = playerScore;
+    const round = gameOver(playerScore, computerScore)
+    resultDiv.innerHTML = round;
+})
 
+scissors.addEventListener('click', () => {
+    const ComputerChoice = getComputerChoice();
+    const result = playRound(choices[2], ComputerChoice);
+    console.log(result);
+    winner.innerHTML = result;
+    compScore.innerHTML = computerScore;
+    plyScore.innerHTML = playerScore;
+   const round = gameOver(playerScore, computerScore)
+    resultDiv.innerHTML = round;
+})
+// function to get overall winner
+const gameOver = (playerScore, computerScore) => {
+    
+    if (playerScore === 5){
+         round = `<h1><strong>CONGRATULATIONS,<br> YOU WIN!</strong><h1>`
+         const resultDiv = document.getElementById('result').style.color = 'green';
+         
+    } else if (computerScore === 5){
+       round =`<h1><strong>'COMPUTER WIN THE GAME!<strong><h1>`; 
+       const resultDiv = document.getElementById('result').style.color = 'red';
+       
+    } 
+      return round
+  }
+ 
+  //restart game
+ document.querySelector('.restart').addEventListener('click', function() {
+    window.location.reload();
+    return false;
+ });
